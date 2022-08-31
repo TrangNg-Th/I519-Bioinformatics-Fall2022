@@ -8,7 +8,7 @@ filename=$(echo $file | cut -d '.' -f 1)
 # Assume that the file is of format <file-name>.fasta where there is no "." in the <file-name>
 
 # Ask for the kmer
-echo "please enter the number of kmer you wish to find"
+echo "please enter the length of kmers you wish to find"
 read k
 
 
@@ -17,7 +17,7 @@ awk '/^>/ { print (NR==1 ? "" : RS) $0; next } { printf "%s", $0 } END { printf 
 fileclean=$(echo ${filename}_clean.fasta)
 
 # Ask if the user wants to use smaller file
-echo "This is an exhaustive search, it is recommended to run on a shorter file. L <1000"
+echo "This is an exhaustive search, it is recommended to run on a shorter file. L <10000"
 echo "Do you want to test on a shorter file length ? (Reps: Y/N)"
 read ans
 
