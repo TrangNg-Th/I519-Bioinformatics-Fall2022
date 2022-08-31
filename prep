@@ -1,0 +1,19 @@
+
+#!/bin/bash
+
+# Cleaning intermediate files
+echo "Preparing data..."
+rm -f PD_clean_short.fasta 
+rm -f all_kmers_duplicates.txt 
+rm -f all_kmers_unique.fasta
+rm -f PD_clean.fasta
+rm -f all_kmers.fasta 
+rm -f all_kmers_freq.txt
+rm -f all_kmers_ushort.txt
+rm -f wc
+rm -f test.txt
+echo "Directory is ready! Please run any program ch<id_number>"
+
+# Recall the current data
+file=$(find . -name *.fasta)
+echo "Your current data is $file"

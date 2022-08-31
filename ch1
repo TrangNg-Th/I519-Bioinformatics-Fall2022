@@ -1,0 +1,30 @@
+
+
+#!/bin/bash
+
+# Determine the frequency of each amino acid in a multi-FASTA protein sequence input file.
+
+
+
+# Declare variable 
+aminoacids="A R N D C E Q G H I L K M F P S T W Y V"
+echo "please enter filename"
+read file
+filename=$(echo $file | cut -d '.' -f 1)
+fileclean=$(echo "${filename}_clean.fasta")
+# Assume that the file is of format <file-name>.fasta where there is no "." in the <file-name>
+
+
+# Preprocess the data
+# Process the file to remove the \n
+awk '/^>/ { print (NR==1 ? "" : RS) $0; next } { printf "%s", $0 } END { printf RS }' $file > ${filename}_clean.fasta
+
+for amin in $aminoacids; do
+ echo $amin
+ seqkit fx2tab $fileclean -C $amin -H -n | awk '{print $(NF)}' | awk '{s+=$1} END {print s}'
+ echo '...............................................................................'
+		
+done
+
+
+
