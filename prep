@@ -12,8 +12,9 @@ rm -f all_kmers_freq.txt
 rm -f all_kmers_ushort.txt
 rm -f wc
 rm -f test.txt
+rm -f  PD_duplicates.txt  PD_unique.fasta
 echo "Directory is ready! Please run any program ch<id_number>"
 
 # Recall the current data
-file=$(find . -name *.fasta)
+file=$(find -name *.fasta)
 echo "Your current data is $file"
