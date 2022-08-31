@@ -1,0 +1,73 @@
+#!/bin/bash
+# Declare variable
+
+echo "please enter filename"
+read file
+filename=$(echo $file | cut -d '.' -f 1)
+
+# Assume that the file is of format <file-name>.fasta where there is no "." in the <file-name>
+
+# Ask for the kmer
+echo "please enter the number of kmer you wish to find"
+read k
+
+
+## Process the file to remove the \n
+awk '/^>/ { print (NR==1 ? "" : RS) $0; next } { printf "%s", $0 } END { printf RS }' $file > ${filename}_clean.fasta
+fileclean=$(echo ${filename}_clean.fasta)
+
+# Ask if the user wants to use smaller file
+echo "This is an exhaustive search, it is recommended to run on a shorter file. L <1000"
+echo "Do you want to test on a shorter file length ? (Reps: Y/N)"
+read ans
+
+if [ $ans = 'Y' ]; then
+	echo "Please enter the number of lines you wish to test on your original data"
+	read L
+	# Test with mini file of length L
+	head -n $L $file > ${filename}_clean_short.fasta
+
+else 
+	echo "Please be patient. It will be a bit long...."
+	cat $file > ${filename}_clean_short.fasta
+fi
+
+
+
+
+# Build a file with all possible kmer 
+cat ${filename}_clean_short.fasta | seqkit sliding -s 1 -W $k > all_kmers.fasta
+
+# Clean duplicates in the file of all possible kmers extracted from data
+seqkit rmdup -s all_kmers.fasta -o all_kmers_unique.fasta  -D all_kmers_duplicates.txt
+echo "Check file all_kmers_unique.fasta to see the unique entries"
+
+
+# Pull the unique file
+echo "Pull out the list of unique kmers"
+grep ">" -v all_kmers_unique.fasta > all_kmers_ushort.txt
+
+
+# Remove the result file if already existed
+rm -f all_kmers_freq.txt
+
+# Define the most frequent count
+M=0
+Most_freq=''
+
+# Execute the count
+echo "Counting the kmers..."
+for line in $(cat all_kmers_ushort.txt)
+
+do current_freq=$(grep -i $line all_kmers.fasta | wc -w)
+   if [ $M -lt $current_freq ];then
+	M=$current_freq
+        Most_freq=$line
+   fi
+   echo "$line : $current_freq" >> all_kmers_freq.txt
+done
+
+echo "Done. Open file all_kmers_freq.txt to see result"
+echo "Most frequent kmer is $Most_freq with freq $M"
+
+

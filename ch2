@@ -1,0 +1,22 @@
+
+
+
+#!/bin/bash
+
+# Remove duplicate entries from a multi-FASTA protein sequence input file (articulate a criterion for "duplicate") 
+#and save the duplicate entries in a separate file.
+
+
+
+
+# Preprocess data
+echo "please enter filename"
+read file
+filename=$(echo $file | cut -d '.' -f 1)
+fileclean=$(echo "${filename}_clean.fasta")
+# Assume that the file is of format <file-name>.fasta where there is no "." in the <file-name>
+
+# Code for ch2
+
+seqkit rmdup -s $fileclean -o ${filename}_unique.fasta  -D ${filename}_duplicates.txt
+echo "Please check file $fileclean"

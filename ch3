@@ -1,0 +1,49 @@
+
+#!/bin/bash
+
+# Determine the maximal length "M" of a run of K or Rs (= positively charged amino acids lysine and arginine) 
+# in a multi-FASTA protein sequence input file.
+
+
+# b) 3. a) continued: Generate a table showing the frequency of sequences with runs of length M, M-1, M-2, ..., 1, 0.
+# Declare variable 
+N=1000
+echo "please enter filename"
+read file
+filename=$(echo $file | cut -d '.' -f 1) 
+fileclean=$(echo "${filename}_clean.fasta")
+
+# Assume that the file is of format <file-name>.fasta where there is no "." in the <file-name> 
+
+# Ask for the sequence
+echo "please enter the aminoacid you wish to find"
+read aa
+aa_ref=$(echo $aa)
+
+# Process the file to remove the \n 
+awk '/^>/ { print (NR==1 ? "" : RS) $0; next } { printf "%s", $0 } END { printf RS }' $file > ${filename}_clean.fasta 
+
+
+# Number of sequence
+echo "Number of sequences in the file is $(grep ">" -c $file)"
+
+# Answer to the challenge
+while [ $N -gt 0 ]
+do
+
+   echo "We are looking for the the presence of the subsequence $aa \n \
+in the file"
+   N=$(cat $file | seqkit grep -s -p $aa -C) 
+   
+   echo "Found $N sequences containing $aa"
+   echo "The length of the a.a. sequence $aa is $(echo $aa | wc -c)"
+   echo $N/$(grep ">" -c $file)
+
+   aa=$(echo "${aa}${aa_ref}")
+   echo "........................................................"
+   
+done
+
+
+
+
