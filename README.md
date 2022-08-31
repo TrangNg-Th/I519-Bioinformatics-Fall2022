@@ -4,9 +4,13 @@
 Challenges of 08-29-2022
 
 1.Determine the frequency of each amino acid in a multi-FASTA protein sequence input file.
+
 2. Remove duplicate entries from a multi-FASTA protein sequence input file (articulate a criterion for "duplicate") and save the duplicate entries in a separate file.
+
 3. a) Determine the maximal length "M" of a run of K or Rs (= positively charged amino acids lysine and arginine) in a multi-FASTA protein sequence input file.
+
 4. ~3.b)  continued: Generate a table showing the frequency of sequences with runs of length M, M-1, M-2, ..., 1, 0.
+
 5. For a multi-FASTA protein sequence input file, generate a table of the most frequent k-mers, where k is an integer input to the program; e.g. k=7.
 
 
