@@ -33,6 +33,10 @@ Once you're done, please execute ```sh prep ```again to clean up the directory
 This program cleans up the directory, leaving only ```PD.fasta ch1 ch2 ch3 ch5 prep```files in your current directory
 
 
+## PS:
+Please let me know if you have any ideas/comments
+
+
 ```ch1```
 This program answers to the question 1
 
