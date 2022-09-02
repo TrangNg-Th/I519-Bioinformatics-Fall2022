@@ -22,5 +22,5 @@ awk '/^>/ { print (NR==1 ? "" : RS) $0; next } { printf "%s", $0 } END { printf 
 
 # Code for ch2
 
-seqkit rmdup -s $fileclean -o ${filename}_unique.fasta  -D ${filename}_duplicates.txt
+seqkit rmdup -s $fileclean -o ${filename}_unique.fasta  -d ${filename}_duplicates.fasta	
 echo "Please check file $fileclean"
