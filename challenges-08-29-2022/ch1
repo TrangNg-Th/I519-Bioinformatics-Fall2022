@@ -13,7 +13,7 @@ read file
 filename=$(echo $file | cut -d '.' -f 1)
 fileclean=$(echo "${filename}_clean.fasta")
 # Assume that the file is of format <file-name>.fasta where there is no "." in the <file-name>
-
+total=$(wc -c $file | cut -f1 -d' ')
 
 # Preprocess the data
 # Process the file to remove the \n
@@ -21,7 +21,8 @@ awk '/^>/ { print (NR==1 ? "" : RS) $0; next } { printf "%s", $0 } END { printf 
 
 for amin in $aminoacids; do
  echo $amin
- seqkit fx2tab $fileclean -C $amin -H -n | awk '{print $(NF)}' | awk '{s+=$1} END {print s}'
+ count=$(seqkit fx2tab $fileclean -C $amin -H -n | awk '{print $(NF)}' | awk '{s+=$1} END {print s}')
+ echo "$(($count/$total))"
  echo '...............................................................................'
 		
 done
